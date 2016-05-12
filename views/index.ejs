@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"> </script>
+	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript">
+		
+
+	</script>
+	<style>
+		#container{
+			padding: 70px;
+		}
+	/*	.message_board{
+			margin: 50px 0px;
+			border: 2px solid grey;
+			padding: 20px;
+		}*/
+		.comment_board {
+			margin: 10px 20px;
+		}
+
+		</style>
+</head>
+<body>
+<% if(typeof(errors) != 'undefined' ) { %>
+     <% for (var x in errors) { %>
+      <h3><%= errors[x].message %></h3>
+     <% } %>
+ <% } %>
+ <div id="container">
+	<h1 align="center">The Dojo Message Board</h1>
+		<div class="message_board">
+			<form align="center" action ="/message" method="post">
+				<p>Name:</p>
+				<input type="text" name="name" placeholder="name">
+				<p>Message</p>
+				<textarea rows="10", cols="50" name="text" placeholder="Type something"></textarea>
+				<p>
+				<input type="submit" name="submit" value="Post Message"></p>
+			</form>
+		</div>	
+			<div class="comment_board">
+				
+				<h2>Post a comment</h2>
+				<% for (var x in all_posts) {%>
+					<h3>Name: <%= all_posts[x].name %></h3>
+					<h3>Message: <%= all_posts[x].text %></h3>
+
+				<% for (var j in all_posts[x].comments) { %>
+					<p>Name: <%= all_posts[x].comments[j].name %></p>
+					<p>Message: <%= all_posts[x].comments[j].text %></p>
+				<%}%>
+				<form action="/posts/<%= all_posts[x]._id %>" method="post">
+					<h4>Name:</h4>
+					<input type="text" name="name" placeholder="name">
+					<h4>Comment:</h4>
+					<textarea rows="5", cols="50" name="text" placeholder="Type something"></textarea>
+					<p>
+					<input type="submit" name="submit" value="Post Comment"></p>
+				</form>	
+				
+				<hr>
+			</div>
+			<% } %>
+</div>
+</body>
+</html>
